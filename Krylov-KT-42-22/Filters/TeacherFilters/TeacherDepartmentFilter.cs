@@ -2,6 +2,8 @@
 {
     public class TeacherDepartmentFilter
     {
-        public string Name { get; set; }
+        public string Dep_Name { get; set; }
+        public string Pos_Name { get; set; }
+        public string Deg_Name { get; set; }
     }
 }
