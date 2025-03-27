@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Krylov_KT_42_22.Migrations
 {
     [DbContext(typeof(UniversityDbContext))]
-    [Migration("20250326130035_CreateDatabase")]
+    [Migration("20250327205652_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
@@ -63,7 +63,7 @@ namespace Krylov_KT_42_22.Migrations
                         .HasColumnName("Founded_Date")
                         .HasComment("Дата основания факультета");
 
-                    b.Property<int>("HeadId")
+                    b.Property<int?>("HeadId")
                         .HasColumnType("integer")
                         .HasColumnName("Head_Id")
                         .HasComment("Id зав. кафедры");
@@ -122,7 +122,8 @@ namespace Krylov_KT_42_22.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DisciplineId")
+                    b.Property<int?>("DisciplineId")
+                        .IsRequired()
                         .HasColumnType("integer")
                         .HasColumnName("Discipline_Id")
                         .HasComment("Id дисциплины");
@@ -132,7 +133,8 @@ namespace Krylov_KT_42_22.Migrations
                         .HasColumnName("Hours")
                         .HasComment("Количество часов нагрузки");
 
-                    b.Property<int>("TeacherId")
+                    b.Property<int?>("TeacherId")
+                        .IsRequired()
                         .HasColumnType("integer")
                         .HasColumnName("Teacher_Id")
                         .HasComment("Id преподавателя");
@@ -235,8 +237,6 @@ namespace Krylov_KT_42_22.Migrations
                     b.HasOne("Krylov_KT_42_22.Models.Teacher", "Head")
                         .WithOne()
                         .HasForeignKey("Krylov_KT_42_22.Models.Department", "HeadId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_f_head_id");
 
                     b.Navigation("Head");

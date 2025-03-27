@@ -59,7 +59,7 @@ namespace Krylov_KT_42_22.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "varchar", maxLength: 20, nullable: false, comment: "Название факультета"),
                     Founded_Date = table.Column<DateTime>(type: "timestamp", nullable: false, comment: "Дата основания факультета"),
-                    Head_Id = table.Column<int>(type: "integer", nullable: false, comment: "Id зав. кафедры")
+                    Head_Id = table.Column<int>(type: "integer", nullable: true, comment: "Id зав. кафедры")
                 },
                 constraints: table =>
                 {
@@ -108,8 +108,8 @@ namespace Krylov_KT_42_22.Migrations
                 {
                     Load_Id = table.Column<int>(type: "integer", nullable: false, comment: "Id нагрузки")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Teacher_Id = table.Column<int>(type: "integer", nullable: false, comment: "Id преподавателя"),
-                    Discipline_Id = table.Column<int>(type: "integer", nullable: false, comment: "Id дисциплины"),
+                    Teacher_Id = table.Column<int>(type: "integer", nullable: true, comment: "Id преподавателя"),
+                    Discipline_Id = table.Column<int>(type: "integer", nullable: true, comment: "Id дисциплины"),
                     Hours = table.Column<int>(type: "integer", nullable: false, comment: "Количество часов нагрузки")
                 },
                 constraints: table =>
@@ -180,8 +180,7 @@ namespace Krylov_KT_42_22.Migrations
                 table: "Departments",
                 column: "Head_Id",
                 principalTable: "Teachers",
-                principalColumn: "Teacher_Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Teacher_Id");
         }
 
         /// <inheritdoc />

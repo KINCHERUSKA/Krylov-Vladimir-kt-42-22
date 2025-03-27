@@ -20,23 +20,21 @@ namespace Krylov_KT_42_22.Database.Configurations
 
             // Настройка связи c teachers
             builder.Property(p => p.TeacherId)
-                .IsRequired()
                 .HasColumnName("Teacher_Id")
                 .HasComment("Id преподавателя");
 
-            
+
             builder.HasOne(p => p.Teacher)
                 .WithMany()
                 .HasForeignKey(p => p.TeacherId)
-                .HasConstraintName("fk_f_teacher_id")
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasConstraintName("fk_f_teacher_id");
+                
 
             builder.ToTable(TableName)
                 .HasIndex(p => p.TeacherId, $"idx_{TableName}_fk_f_teacher_id");
 
             // Настройка связи c дисциплинами
             builder.Property(p => p.DisciplineId)
-                .IsRequired()
                 .HasColumnName("Discipline_Id")
                 .HasComment("Id дисциплины");
 
