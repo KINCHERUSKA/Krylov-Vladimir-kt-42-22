@@ -1,5 +1,8 @@
+using Krylov_KT_42_22.Database;
+using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
+using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +20,10 @@ try
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+
+    builder.Services.AddDbContext<UniversityDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
     var app = builder.Build();
 
