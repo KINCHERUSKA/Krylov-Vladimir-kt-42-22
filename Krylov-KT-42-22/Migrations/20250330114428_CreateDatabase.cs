@@ -108,8 +108,8 @@ namespace Krylov_KT_42_22.Migrations
                 {
                     Load_Id = table.Column<int>(type: "integer", nullable: false, comment: "Id нагрузки")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Teacher_Id = table.Column<int>(type: "integer", nullable: true, comment: "Id преподавателя"),
-                    Discipline_Id = table.Column<int>(type: "integer", nullable: true, comment: "Id дисциплины"),
+                    Teacher_Id = table.Column<int>(type: "integer", nullable: false, comment: "Id преподавателя"),
+                    Discipline_Id = table.Column<int>(type: "integer", nullable: false, comment: "Id дисциплины"),
                     Hours = table.Column<int>(type: "integer", nullable: false, comment: "Количество часов нагрузки")
                 },
                 constraints: table =>

@@ -1,4 +1,5 @@
 ﻿using Krylov_KT_42_22.Interfaces.TeacherInterfaces;
+using Krylov_KT_42_22.Interfaces.DepartmentInterfaces;
 using System.Runtime.CompilerServices;
 
 namespace Krylov_KT_42_22.ServiceExtensions
@@ -8,6 +9,7 @@ namespace Krylov_KT_42_22.ServiceExtensions
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<IDepartmentServices, DepartmentService>();
             return services;
         }
 

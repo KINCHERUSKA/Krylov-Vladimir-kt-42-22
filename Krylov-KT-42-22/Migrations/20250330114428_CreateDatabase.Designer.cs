@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Krylov_KT_42_22.Migrations
 {
     [DbContext(typeof(UniversityDbContext))]
-    [Migration("20250327205652_CreateDatabase")]
+    [Migration("20250330114428_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
