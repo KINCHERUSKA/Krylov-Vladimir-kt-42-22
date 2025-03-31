@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Krylov_KT_42_22.Interfaces;
 using Krylov_KT_42_22.Filters.TeacherFilters;
 using Krylov_KT_42_22.Interfaces.TeacherInterfaces;
 
