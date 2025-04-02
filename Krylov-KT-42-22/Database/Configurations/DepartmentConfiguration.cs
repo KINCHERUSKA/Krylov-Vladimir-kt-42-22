@@ -1,7 +1,7 @@
 ﻿using Krylov_KT_42_22.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Krylov_KT_42_22.Database.Helpers;
+using System.Collections.Generic;
 
 namespace Krylov_KT_42_22.Database.Configurations
 {
@@ -10,42 +10,24 @@ namespace Krylov_KT_42_22.Database.Configurations
         private const string TableName = "Departments";
         public void Configure(EntityTypeBuilder<Department> builder)
         {
-            builder.HasKey(p => p.Id)
-            .HasName($"pl_{TableName}_department_id");
+            builder.HasKey(d => d.Id);
 
-            //Автоинкрементация
-            builder.Property(p => p.Id)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("Department_Id")
-                .HasComment("Id факультета");
+            builder.Property(d => d.Name)
+                .IsRequired();
 
-            builder.Property(p => p.Name)
-                 .IsRequired()
-                 .HasColumnName("Name")
-                 .HasColumnType(ColumnType.String).HasMaxLength(20)
-                 .HasComment("Название факультета");
-
-            builder.Property(p => p.FoundedDate)
-                 .IsRequired()
-                 .HasColumnName("Founded_Date")
-                 .HasColumnType(ColumnType.Date)
-                 .HasComment("Дата основания факультета");
-
-            // Настройка связи
-            builder.Property(p => p.HeadId)
-             
-              .HasColumnName("Head_Id")
-              .HasComment("Id зав. кафедры");
+            builder.Property(d => d.FoundedDate)
+                .IsRequired();
 
 
-            builder.HasOne(p => p.Head)
+            builder.HasMany(d => d.Teachers)
+                .WithOne(t => t.Department)
+                .HasForeignKey(t => t.DepartmentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(d => d.Head)
                 .WithOne()
-                .HasForeignKey<Department>(p => p.HeadId)
-                .HasConstraintName("fk_f_head_id");
-                
-
-            builder.ToTable(TableName)
-                .HasIndex(p => p.HeadId, $"idx_{TableName}_fk_f_head_id");
+                .HasForeignKey<Department>(d => d.HeadId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

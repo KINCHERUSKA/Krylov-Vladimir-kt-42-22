@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
 using Npgsql;
-using Krylov_KT_42_22.ServiceExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,9 +27,7 @@ try
     builder.Services.AddSwaggerGen();
 
     builder.Services.AddDbContext<UniversityDbContext>(options =>
-        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-    builder.Services.AddServices();
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     var app = builder.Build();
 
