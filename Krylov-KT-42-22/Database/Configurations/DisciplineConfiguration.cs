@@ -17,13 +17,9 @@ namespace Krylov_KT_42_22.Database.Configurations
 
             //Автоинкрементация
             builder.Property(p => p.Id)
-                .ValueGeneratedOnAdd();
-
-            //Колонка id дисциплины
-            builder.Property(p => p.Id)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("Discipline_Id")
                 .HasComment("Id дисциплины");
-
 
             builder.Property(p => p.Name)
                .IsRequired()

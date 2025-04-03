@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Krylov_KT_42_22.Migrations
 {
     [DbContext(typeof(UniversityDbContext))]
-    [Migration("20250330114428_CreateDatabase")]
+    [Migration("20250403221734_CreateDatabase")]
     partial class CreateDatabase
     {
         /// <inheritdoc />
@@ -122,20 +122,18 @@ namespace Krylov_KT_42_22.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("DisciplineId")
-                        .IsRequired()
-                        .HasColumnType("integer")
+                    b.Property<int>("DisciplineId")
+                        .HasColumnType("int4")
                         .HasColumnName("Discipline_Id")
                         .HasComment("Id дисциплины");
 
                     b.Property<int>("Hours")
-                        .HasColumnType("integer")
+                        .HasColumnType("int4")
                         .HasColumnName("Hours")
                         .HasComment("Количество часов нагрузки");
 
-                    b.Property<int?>("TeacherId")
-                        .IsRequired()
-                        .HasColumnType("integer")
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int4")
                         .HasColumnName("Teacher_Id")
                         .HasComment("Id преподавателя");
 
@@ -182,8 +180,7 @@ namespace Krylov_KT_42_22.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("DegreeId")
-                        .IsRequired()
+                    b.Property<int>("DegreeId")
                         .HasColumnType("int4")
                         .HasColumnName("Degree_Id")
                         .HasComment("Id ученой степени");
@@ -201,16 +198,10 @@ namespace Krylov_KT_42_22.Migrations
                         .HasComment("Имя преподавателя");
 
                     b.Property<string>("LastName")
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar")
-                        .HasColumnName("Last_Name")
-                        .HasComment("Отчество преподавателя");
-
-                    b.Property<string>("MiddleName")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("varchar")
-                        .HasColumnName("Middle_Name")
+                        .HasColumnName("Last_Name")
                         .HasComment("Фамилия преподавателя");
 
                     b.Property<int>("PositionId")
@@ -237,6 +228,7 @@ namespace Krylov_KT_42_22.Migrations
                     b.HasOne("Krylov_KT_42_22.Models.Teacher", "Head")
                         .WithOne()
                         .HasForeignKey("Krylov_KT_42_22.Models.Department", "HeadId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .HasConstraintName("fk_f_head_id");
 
                     b.Navigation("Head");

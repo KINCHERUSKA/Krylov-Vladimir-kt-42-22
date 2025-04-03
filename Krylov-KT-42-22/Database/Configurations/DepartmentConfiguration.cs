@@ -33,7 +33,6 @@ namespace Krylov_KT_42_22.Database.Configurations
 
             // Настройка связи
             builder.Property(p => p.HeadId)
-             
               .HasColumnName("Head_Id")
               .HasComment("Id зав. кафедры");
 
@@ -41,6 +40,7 @@ namespace Krylov_KT_42_22.Database.Configurations
             builder.HasOne(p => p.Head)
                 .WithOne()
                 .HasForeignKey<Department>(p => p.HeadId)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("fk_f_head_id");
                 
 

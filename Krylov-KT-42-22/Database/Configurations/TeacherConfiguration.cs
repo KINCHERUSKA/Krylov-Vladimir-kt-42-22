@@ -17,10 +17,7 @@ namespace Krylov_KT_42_22.Database.Configurations
 
             //Автоинкрементация
             builder.Property(p => p.Id)
-                .ValueGeneratedOnAdd();
-
-            //Колонка id препода
-            builder.Property(p => p.Id)
+                .ValueGeneratedOnAdd()
                 .HasColumnName("Teacher_Id")
                 .HasComment("Id преподавателя");
 
@@ -31,18 +28,12 @@ namespace Krylov_KT_42_22.Database.Configurations
                 .HasColumnType(ColumnType.String).HasMaxLength(20)
                 .HasComment("Имя преподавателя");
 
-            // Колонка фамилии
-            builder.Property(p => p.MiddleName)
-                .IsRequired()
-                .HasColumnName("Middle_Name")
-                .HasColumnType(ColumnType.String).HasMaxLength(20)
-                .HasComment("Фамилия преподавателя");
-
             // Колонка отчества
             builder.Property(p => p.LastName)
+                .IsRequired()
                 .HasColumnName("Last_Name")
                 .HasColumnType(ColumnType.String).HasMaxLength(20)
-                .HasComment("Отчество преподавателя");
+                .HasComment("Фамилия преподавателя");
             
             // Колонка с уч. степенью
             builder.Property(p => p.DegreeId)
@@ -61,6 +52,9 @@ namespace Krylov_KT_42_22.Database.Configurations
             builder.ToTable(TableName)
                 .HasIndex(p => p.DegreeId, $"idx_{TableName}_fk_f_degree_id");
 
+            builder.Navigation(p => p.Degree)
+                .AutoInclude();
+
             // Колонка с должностью
             builder.Property(p => p.PositionId)
                 .IsRequired()
@@ -77,6 +71,9 @@ namespace Krylov_KT_42_22.Database.Configurations
 
             builder.ToTable(TableName)
                 .HasIndex(p => p.DegreeId, $"idx_{TableName}_fk_f_position_id");
+
+            builder.Navigation(p => p.Position)
+                .AutoInclude();
 
             //  Колонка с кафедрой
             builder.Property(p => p.DepartmentId)

@@ -6,12 +6,11 @@
         public int Id { get; set; }
         
         //ФИО
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string MiddleName { get; set; }
 
         // Ученая степень
-        public int? DegreeId { get; set; }
+        public int DegreeId { get; set; }
         public virtual Degree Degree { get; set; }
 
         // Должность

@@ -73,8 +73,7 @@ namespace Krylov_KT_42_22.Migrations
                     Teacher_Id = table.Column<int>(type: "integer", nullable: false, comment: "Id преподавателя")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     First_Name = table.Column<string>(type: "varchar", maxLength: 20, nullable: false, comment: "Имя преподавателя"),
-                    Last_Name = table.Column<string>(type: "varchar", maxLength: 20, nullable: true, comment: "Отчество преподавателя"),
-                    Middle_Name = table.Column<string>(type: "varchar", maxLength: 20, nullable: false, comment: "Фамилия преподавателя"),
+                    Last_Name = table.Column<string>(type: "varchar", maxLength: 20, nullable: false, comment: "Фамилия преподавателя"),
                     Degree_Id = table.Column<int>(type: "int4", nullable: false, comment: "Id ученой степени"),
                     Position_Id = table.Column<int>(type: "int4", nullable: false, comment: "Id занимаемой должности"),
                     Department_Id = table.Column<int>(type: "int4", nullable: false, comment: "Id кафедры")
@@ -108,9 +107,9 @@ namespace Krylov_KT_42_22.Migrations
                 {
                     Load_Id = table.Column<int>(type: "integer", nullable: false, comment: "Id нагрузки")
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Teacher_Id = table.Column<int>(type: "integer", nullable: false, comment: "Id преподавателя"),
-                    Discipline_Id = table.Column<int>(type: "integer", nullable: false, comment: "Id дисциплины"),
-                    Hours = table.Column<int>(type: "integer", nullable: false, comment: "Количество часов нагрузки")
+                    Teacher_Id = table.Column<int>(type: "int4", nullable: false, comment: "Id преподавателя"),
+                    Discipline_Id = table.Column<int>(type: "int4", nullable: false, comment: "Id дисциплины"),
+                    Hours = table.Column<int>(type: "int4", nullable: false, comment: "Количество часов нагрузки")
                 },
                 constraints: table =>
                 {
