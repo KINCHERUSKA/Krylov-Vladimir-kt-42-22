@@ -15,7 +15,7 @@ try
     builder.Host.UseNLog();
 
     // Add services to the container.
-
+    
     builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
