@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Krylov_KT_42_22.Models.DTO.TeachersDTO
+namespace Krylov_KT_42_22.Models.DTO
 {
     public class UpdateTeacherDto
     {
@@ -13,6 +13,24 @@ namespace Krylov_KT_42_22.Models.DTO.TeachersDTO
 
         [Required]
         [StringLength(50)]
+        public string LastName { get; set; }
+
+        [Required]
+        public int DegreeId { get; set; }
+
+        [Required]
+        public int PositionId { get; set; }
+
+        [Required]
+        public int DepartmentId { get; set; }
+    }
+
+    public class AddTeacherDto
+    {
+        [Required]
+        public string FirstName { get; set; }
+
+        [Required]
         public string LastName { get; set; }
 
         [Required]

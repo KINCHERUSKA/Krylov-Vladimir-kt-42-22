@@ -3,7 +3,7 @@
 using Krylov_KT_42_22.Filters.TeacherFilters;
 using Krylov_KT_42_22.Interfaces.TeacherInterfaces;
 using Krylov_KT_42_22.Models;
-using Krylov_KT_42_22.Models.DTO.TeachersDTO;
+using Krylov_KT_42_22.Models.DTO;
 
 namespace Krylov_KT_42_22.Controllers
 {
