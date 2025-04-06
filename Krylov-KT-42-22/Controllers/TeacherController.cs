@@ -3,7 +3,7 @@
 using Krylov_KT_42_22.Filters.TeacherFilters;
 using Krylov_KT_42_22.Interfaces.TeacherInterfaces;
 using Krylov_KT_42_22.Models;
-using Krylov_KT_42_22.Models.DTO;
+using Krylov_KT_42_22.Models.DTO.TeachersDTO;
 
 namespace Krylov_KT_42_22.Controllers
 {
@@ -58,22 +58,38 @@ namespace Krylov_KT_42_22.Controllers
             return Ok(createdTeacher);
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> UpdateTeacherAsync(int id, [FromBody] Teacher teacher, CancellationToken cancellationToken)
-        //{
-        //    if (id != teacher.Id)
-        //        return BadRequest("ID в пути и в теле запроса не совпадают");
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTeacherAsync(
+            int id,
+            [FromBody] UpdateTeacherDto teacherDto,
+            CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-        //    var updatedTeacher = await _teacherService.UpdateTeacherAsync(teacher, cancellationToken);
-        //    return Ok(updatedTeacher);
-        //}
+            if (id != teacherDto.Id)
+                return BadRequest("ID в пути и в теле запроса не совпадают");
 
-        // [HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteTeacherAsync(int id, CancellationToken cancellationToken)
-        //{
-        //    var result = await _teacherService.DeleteTeacherAsync(id, cancellationToken);
-        //    if (!result) return NotFound();
-        //    return NoContent();
-        //}
+            var teacher = new Teacher
+            {
+                Id = teacherDto.Id,
+                FirstName = teacherDto.FirstName,
+                LastName = teacherDto.LastName,
+                DegreeId = teacherDto.DegreeId,
+                PositionId = teacherDto.PositionId,
+                DepartmentId = teacherDto.DepartmentId
+            };
+
+            var updatedTeacher = await _teacherService.UpdateTeacherAsync(teacher, cancellationToken);
+            return Ok(updatedTeacher);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTeacherAsync(int id, CancellationToken cancellationToken)
+        {
+            var result = await _teacherService.DeleteTeacherAsync(id, cancellationToken);
+            if (!result) return NotFound();
+            return NoContent();
+        }
     }
 }

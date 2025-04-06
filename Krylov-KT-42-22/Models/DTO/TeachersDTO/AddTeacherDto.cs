@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Krylov_KT_42_22.Models.DTO
+namespace Krylov_KT_42_22.Models.DTO.TeachersDTO
 {
     public class AddTeacherDto
     {
