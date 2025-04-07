@@ -59,9 +59,7 @@ namespace Krylov_KT_42_22.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTeacherAsync(
-            int id,
-            [FromBody] UpdateTeacherDto teacherDto,
+        public async Task<IActionResult> UpdateTeacherAsync(int id, [FromBody] UpdateTeacherDto teacherDto,
             CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
