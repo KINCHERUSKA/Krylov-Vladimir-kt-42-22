@@ -23,9 +23,6 @@ namespace Krylov_KT_42_22.Models
         public int DepartmentId { get; set; }
         public virtual Department Department { get; set; }
 
-
-
-
         public bool IsValidTeacherFirstName()
         {
             return !string.IsNullOrEmpty(FirstName) &&

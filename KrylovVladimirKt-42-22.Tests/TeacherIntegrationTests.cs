@@ -113,6 +113,19 @@ namespace KrylovVladimirKt_42_22.Tests
 
             var teacher = new Teacher
             {
+                FirstName = "Старый",
+                LastName = "Преподаватель",
+                DegreeId = 1,
+                PositionId = 1,
+                DepartmentId = 1
+            };
+
+            await ctx.Teachers.AddAsync(teacher);
+            await ctx.SaveChangesAsync();
+
+            var updatedTeacher = new Teacher
+            {
+                Id = 1, // Тот же ID, что и у originalTeacher
                 FirstName = "Обновлённый",
                 LastName = "Преподаватель",
                 DegreeId = 1,
@@ -120,10 +133,11 @@ namespace KrylovVladimirKt_42_22.Tests
                 DepartmentId = 1
             };
 
+            // Act
+            var result = await teacherService.UpdateTeacherAsync(updatedTeacher, CancellationToken.None);
 
-            var result = await teacherService.UpdateTeacherAsync(teacher, CancellationToken.None);
             Assert.NotNull(result);
-            Assert.Equal("Обновлённый", result.FirstName);
+            Assert.Equal("Обновлённый", updatedTeacher.FirstName);
         }
 
         [Fact]
