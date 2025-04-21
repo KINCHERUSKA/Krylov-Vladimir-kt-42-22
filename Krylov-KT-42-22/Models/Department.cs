@@ -15,9 +15,11 @@ namespace Krylov_KT_42_22.Models
 
         //public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
 
+
         public bool IsValidDepartmentName()
         {
-            return Regex.IsMatch(Name, @"^([А-ЯЁA-Z]+|[А-ЯЁA-Z][а-яёa-z-]*[а-яёa-z])(?:\s+([А-ЯЁA-Z]+|[А-ЯЁA-Z]?[а-яёa-z-]*[а-яёa-z]))*$", RegexOptions.None);
+            return !string.IsNullOrEmpty(Name) &&
+                   Regex.IsMatch(Name, @"^[a-zA-Zа-яА-ЯёЁ]+$");
         }
 
         // Проверка числовых идентификаторов
