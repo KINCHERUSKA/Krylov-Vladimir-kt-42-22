@@ -25,4 +25,9 @@ namespace Krylov_KT_42_22.Models.DTO
         [StringLength(100)]
         public string Name { get; set; }
     }
+
+    public class TeacherDisciplineInfoDto
+    {
+        public string DepartmentName { get; set; }
+    }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Krylov_KT_42_22.Database;
 using Microsoft.EntityFrameworkCore;
+using Krylov_KT_42_22.Models.DTO;
 
 namespace Krylov_KT_42_22.Interfaces.DisciplineInterfaces
 {
@@ -11,6 +12,7 @@ namespace Krylov_KT_42_22.Interfaces.DisciplineInterfaces
     {
         Task<Discipline[]> GetDisciplinesAsync(DisciplineFilter filter, CancellationToken cancellationToken);
         Task<Discipline?> GetDisciplineByIdAsync(int id, CancellationToken cancellationToken);
+        Task<List<string>> GetUniqueDepartmentsByDisciplineAndHoursAsync(string name,int minHours,int maxHours,CancellationToken cancellationToken);
         Task<Discipline> AddDisciplineAsync(Discipline discipline, CancellationToken cancellationToken);
         Task<Discipline> UpdateDisciplineAsync(Discipline discipline, CancellationToken cancellationToken);
         Task<bool> DeleteDisciplineAsync(int id, CancellationToken cancellationToken);
@@ -69,6 +71,35 @@ namespace Krylov_KT_42_22.Interfaces.DisciplineInterfaces
         {
             return await _dbContext.Disciplines
                 .FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
+        }
+
+        public async Task<List<string>> GetUniqueDepartmentsByDisciplineAndHoursAsync(
+      string name,
+      int minHours,
+      int maxHours,
+      CancellationToken cancellationToken)
+        {
+            // Сначала получаем все факультеты, соответствующие условиям
+            var departmentsQuery = _dbContext.Disciplines
+                .Where(d => d.Name.Contains(name))
+                .Join(_dbContext.Loads,
+                    discipline => discipline.Id,
+                    load => load.DisciplineId,
+                    (discipline, load) => new { discipline, load })
+                .Where(x => x.load.Hours >= minHours && x.load.Hours <= maxHours)
+                .Join(_dbContext.Teachers,
+                    x => x.load.TeacherId,
+                    teacher => teacher.Id,
+                    (x, teacher) => new { x.discipline, x.load, teacher })
+                .Join(_dbContext.Departments,
+                    x => x.teacher.DepartmentId,
+                    department => department.Id,
+                    (x, department) => department.Name)
+                .Distinct();
+
+            var departments = await departmentsQuery.ToListAsync(cancellationToken);
+
+            return departments;
         }
 
         public async Task<Discipline> AddDisciplineAsync(Discipline discipline, CancellationToken cancellationToken)

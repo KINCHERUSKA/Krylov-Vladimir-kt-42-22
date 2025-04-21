@@ -45,6 +45,28 @@ namespace Krylov_KT_42_22.Controllers
             return Ok(discipline);
         }
 
+        [HttpGet("departments-by-discipline")]
+        public async Task<IActionResult> GetDepartmentsByDiscipline(
+            [FromQuery] string disciplineName,
+            [FromQuery] int minHours,
+            [FromQuery] int maxHours,
+            CancellationToken cancellationToken)
+            {
+                if (string.IsNullOrWhiteSpace(disciplineName))
+                    return BadRequest("Название дисциплины обязательно");
+
+                if (minHours < 0 || maxHours < 0 || minHours > maxHours)
+                    return BadRequest("Некорректный диапазон часов");
+
+                var departments = await _disciplineService.GetUniqueDepartmentsByDisciplineAndHoursAsync(
+                    disciplineName, minHours, maxHours, cancellationToken);
+
+                if (!departments.Any())
+                    return NotFound("Факультеты по указанным критериям не найдены");
+
+                return Ok(departments);
+            }
+
         [HttpPost]
         public async Task<IActionResult> CreateDiscipline(
             [FromBody] AddDisciplineDto disciplineDto,

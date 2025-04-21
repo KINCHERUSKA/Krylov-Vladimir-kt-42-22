@@ -172,5 +172,83 @@ namespace KrylovVladimirKt_42_22.Tests
             Assert.Equal(2, disList.Count());
         }
 
+        [Fact]
+        public async Task GetUniqueDepartmentsByDisciplineAndHoursAsync_ReturnsCorrectDepartments()
+        {
+            // Arrange
+            var ctx = new UniversityDbContext(_dbContextOptions);
+            var disciplineService = new DisciplineService(ctx);
+
+            // Создаем тестовые данные
+            var departments = new List<Department>
+            {
+                new Department { Id = 1, Name = "ИВТ" },
+                new Department { Id = 2, Name = "РЭА" },
+                new Department { Id = 3, Name = "ФУиСТ" }
+            };
+            await ctx.Departments.AddRangeAsync(departments);
+
+            var position = new Position { Id = 1, Name = "Профессор" };
+            await ctx.Positions.AddAsync(position);
+
+            var degree = new Degree { Id = 1, Name = "Доктор наук" };
+            await ctx.Degrees.AddAsync(degree);
+
+            var teachers = new List<Teacher>
+            {
+                new Teacher { Id = 1, FirstName = "Иван", LastName = "Иванов",
+                     DegreeId = 1, PositionId = 1, DepartmentId = 1 },
+                new Teacher { Id = 2, FirstName = "Петр", LastName = "Петров",
+                     DegreeId = 1, PositionId = 1, DepartmentId = 2 },
+                new Teacher { Id = 3, FirstName = "Сергей", LastName = "Сергеев",
+                     DegreeId = 1, PositionId = 1, DepartmentId = 1 }
+            };
+            await ctx.Teachers.AddRangeAsync(teachers);
+
+            var disciplines = new List<Discipline>
+            {
+                new Discipline { Id = 1, Name = "Анализ математический" },
+                new Discipline { Id = 2, Name = "Линейная алгебра" },
+                new Discipline { Id = 3, Name = "Дискретная математика" }
+            };
+            await ctx.Disciplines.AddRangeAsync(disciplines);
+
+            var loads = new List<Load>
+            {
+                new Load { Id = 1, DisciplineId = 1, TeacherId = 1, Hours = 30 },
+                new Load { Id = 2, DisciplineId = 1, TeacherId = 2, Hours = 40 }, // Петров Петр - Лин 
+                new Load { Id = 3, DisciplineId = 2, TeacherId = 1, Hours = 20 },
+                new Load { Id = 4, DisciplineId = 3, TeacherId = 3, Hours = 50 }
+            };
+            await ctx.Loads.AddRangeAsync(loads);
+            await ctx.SaveChangesAsync();
+
+            var result = await disciplineService.GetUniqueDepartmentsByDisciplineAndHoursAsync("Анализ",20,50,CancellationToken.None);
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count); // Ожидаем 2 факультета (ИВТ и РЭА)
+            Assert.Contains("ИВТ", result);
+            Assert.Contains("РЭА", result);
+            Assert.DoesNotContain("ФУиСТ", result); // Этот факультет не должен быть в результатах
+        }
+
+        [Fact]
+        public async Task GetUniqueDepartmentsByDisciplineAndHoursAsync_ReturnsEmpty_WhenNoMatches()
+        {
+            // Arrange
+            var ctx = new UniversityDbContext(_dbContextOptions);
+            var disciplineService = new DisciplineService(ctx);
+
+            // Act
+            // Ищем несуществующую дисциплину
+            var result = await disciplineService.GetUniqueDepartmentsByDisciplineAndHoursAsync(
+                "Физика",
+                10,
+                100,
+                CancellationToken.None);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Empty(result);
+        }
     }
 }

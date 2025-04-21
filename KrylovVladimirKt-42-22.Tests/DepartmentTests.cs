@@ -12,14 +12,41 @@ namespace KrylovVladimirKt_42_22.Tests
         [Fact]
         public void IsValidDepartmentName_ReturnsTrue_ForValidNames()
         {
-            var testDepartment = new Department
+            var testCases = new[]
             {
-                Name = "ФУиСТ",
+                new Department { Name = "ИВТ" },
+                new Department { Name = "Информатики и математики" },
+                new Department { Name = "Физико-химический" },
+                new Department { Name = "Малый физико-математический" },
+                new Department { Name = "Механико-математический факультет" }
+            };
+            foreach (var testDepartment in testCases)
+            {
+                var result = testDepartment.IsValidDepartmentName();
+                Assert.True(result, $"Ошибка валидации для имени: {testDepartment.Name}");
+            }
+           
+        }
+
+        [Fact]
+        public void IsValidDepartmentName_ReturnsFalse_ForInvalidNames()
+        {
+            var testCases = new[]
+            {
+                new Department { Name = "факультет" }, // начинается с маленькой буквы
+                new Department { Name = "Факультет-" }, // дефис в конце
+                new Department { Name = "-Факультет" }, // дефис в начале
+                new Department { Name = "Факультет  " }, // пробелы в конце
+                new Department { Name = "  Факультет" }, // пробелы в начале
+                new Department { Name = "Факультет  2" }, // содержит цифру
+                new Department { Name = "Факультет !" } // содержит спецсимвол
             };
 
-            var result = testDepartment.IsValidDepartmentName();
-
-            Assert.True(result);
+            foreach (var testDepartment in testCases)
+            {
+                var result = testDepartment.IsValidDepartmentName();
+                Assert.False(result, $"Ожидалась ошибка валидации для имени: {testDepartment.Name}");
+            }
         }
 
 
